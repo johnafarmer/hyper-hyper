@@ -23,3 +23,88 @@ ALWAYS structure responses for text-to-speech compatibility by following these r
 - Always avoid lists to convey information in your messages, Instead flow everything together in sentences avoiding line breaks. Like we're having a conversation and you're talking to me. Line breaks interrupt the TTS, i only hear up to the first line break. Never ever use numbered lists in your messages to me! Very important!
 - Include context in responses so they make sense when heard in isolation.
 - - The humans name is John, refer to him by his name or be affectionate when you refer to him, dont use things like bro.
+
+## Project Overview
+
+This is a Hyper terminal plugin that creates a glowing gradient lava edge effect during terminal activity. The effect uses bright colors including magenta/fuchsia, neon purple/violet, turquoise/aqua, hot pink, and deep indigo with smooth fade in/out transitions.
+
+## Plugin Architecture
+
+This plugin follows the standard Hyper plugin architecture used by hyper-rain, hyper-rainy, and hyper-cat:
+
+### Core Structure
+- `package.json` - Plugin metadata and configuration
+- `index.js` - Main implementation file containing all plugin logic
+
+### Key Exports in index.js
+- `exports.decorateTerm` - Wraps the terminal component to add visual effects
+- `exports.decorateConfig` - Handles user configuration options
+- `exports.middleware` - Redux middleware for detecting terminal activity
+
+### Implementation Pattern
+The plugin creates a React component that:
+1. Renders a canvas overlay positioned absolutely over the terminal
+2. Detects typing through multiple methods (cursor movement, content monitoring, Redux actions)
+3. Activates/deactivates effects based on typing activity
+4. Manages CSS styles for transparency and visual effects
+
+### Typing Detection Methods
+- `onCursorMove` callback from Hyper terminal component
+- Content monitoring every 100ms using `setInterval`
+- Redux action interception for `SESSION_USER_DATA` and `SESSION_PTY_DATA`
+
+### Canvas Animation Approach
+- Initialize canvas with proper sizing
+- Use `requestAnimationFrame` for smooth animation
+- Draw effects only when active (typing detected)
+- Handle resize events to update canvas dimensions
+
+### CSS Management
+- Inject styles directly in React render method
+- Toggle visibility classes based on activity state
+- Apply transparency to terminal background when active
+- Z-index management for proper layering
+
+## Development Commands
+
+Since this is a Hyper plugin, development involves:
+```bash
+# Link the plugin locally for testing
+cd /Users/git/hyper-hyper
+npm link
+
+# In your .hyper.js config, add to plugins array:
+# plugins: ['hyper-hyper']
+
+# To test changes, reload Hyper with Cmd+Shift+R
+```
+
+## Configuration Options
+
+Users can customize the plugin through their `.hyper.js` config:
+```javascript
+hyperHyper: {
+  opacity: 0.8,    // Glow effect opacity
+  blur: 0,         // Terminal blur amount
+  // Additional options can be added as needed
+}
+```
+
+## Important Implementation Notes
+
+1. **ALWAYS replicate the existing plugin patterns** - Don't try to reinvent the wheel. The hyper-rain/rainy/cat plugins have proven patterns that work.
+
+2. **Global instance storage** - Store component instance references both on DOM elements and globally to ensure middleware can access them.
+
+3. **Cleanup** - Always implement `componentWillUnmount` to clean up timers, animations, and references.
+
+4. **Canvas performance** - Only draw when the effect is active to avoid unnecessary CPU usage.
+
+5. **Color scheme** - The glow effect should use:
+   - Bright magenta / Fuchsia
+   - Neon purple / Violet  
+   - Turquoise / Aqua
+   - Hot pink
+   - Deep indigo
+
+6. **Effect behavior** - Smooth fade in when typing starts, fade out after inactivity timeout.

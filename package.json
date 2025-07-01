@@ -1,0 +1,24 @@
+{
+  "name": "hyper-hyper",
+  "version": "1.0.0",
+  "description": "Glowing gradient lava edge effect for Hyper terminal during typing activity",
+  "main": "index.js",
+  "keywords": [
+    "hyper",
+    "hyper-terminal",
+    "terminal",
+    "glow",
+    "gradient",
+    "lava",
+    "effect",
+    "typing",
+    "animation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/hyper-hyper"
+  },
+  "author": "John",
+  "license": "MIT",
+  "dependencies": {}
+}
