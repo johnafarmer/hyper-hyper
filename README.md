@@ -104,8 +104,8 @@ MIT
 
 ## Author
 
-Created with 💙 by John
+Created with 💙 by John & Claude
 
 ---
 
-Inspired by the electric aesthetics of cyberpunk and the need for subtle terminal bling.
+Inspired by [hyper-rain](https://github.com/johnafarmer/hyper-rain).
