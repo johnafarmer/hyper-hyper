@@ -1,9 +1,3 @@
-const COLOR_PRIMARY = '#0066ff';
-const COLOR_SECONDARY = '#0080ff';
-const COLOR_TERTIARY = '#ff4500';
-const COLOR_QUATERNARY = '#00bfff';
-const COLOR_QUINARY = '#ff6600';
-
 let hyperHyperInstances = new WeakMap();
 let globalHyperHyperInstance = null;
 
@@ -106,6 +100,8 @@ exports.decorateTerm = (Term, { React, notify }) => {
         return;
       }
 
+      const config = this.props.hyperHyper || {};
+      const colors = config.colors || ['#45847b', '#3ac28d', '#008787', '#2eb398', '#66d4aa'];
       const width = this.canvas.width;
       const height = this.canvas.height;
       
@@ -167,15 +163,14 @@ exports.decorateTerm = (Term, { React, notify }) => {
             Math.sin(this.time * 0.5 + Math.PI) * height/2 + height/2
           );
           
-          gradient.addColorStop(0, COLOR_PRIMARY);
-          gradient.addColorStop(0.2, COLOR_SECONDARY);
-          gradient.addColorStop(0.4, COLOR_TERTIARY);
-          gradient.addColorStop(0.6, COLOR_QUATERNARY);
-          gradient.addColorStop(0.8, COLOR_QUINARY);
-          gradient.addColorStop(1, COLOR_PRIMARY);
+          // Distribute colors evenly across the gradient
+          colors.forEach((color, index) => {
+            const stop = index / (colors.length - 1);
+            gradient.addColorStop(stop, color);
+          });
           
           this.ctx.strokeStyle = gradient;
-          this.ctx.shadowColor = COLOR_PRIMARY;
+          this.ctx.shadowColor = colors[0];
           this.ctx.stroke();
         };
         
@@ -234,6 +229,7 @@ exports.decorateTerm = (Term, { React, notify }) => {
 
     render() {
       const config = this.props.hyperHyper || {};
+      const colors = config.colors || ['#45847b', '#3ac28d', '#008787', '#2eb398', '#66d4aa'];
       const opacity = config.opacity || 0.8;
       const blur = config.blur || 0;
       
@@ -279,6 +275,7 @@ exports.decorateTerm = (Term, { React, notify }) => {
 exports.decorateConfig = (config) => {
   return Object.assign({}, config, {
     hyperHyper: Object.assign({}, {
+      colors: ['#45847b', '#3ac28d', '#008787', '#2eb398', '#66d4aa'],
       opacity: 0.8,
       blur: 0
     }, config.hyperHyper)
